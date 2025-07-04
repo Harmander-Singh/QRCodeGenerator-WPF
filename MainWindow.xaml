@@ -1,0 +1,225 @@
+﻿<Window x:Class="QRCodeGeneratorApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QRCodeGeneratorApp"
+        mc:Ignorable="d"
+        Title="Professional QR Code Generator" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#F8F9FA">
+
+    <Window.Resources>
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern TextBox Style -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007ACC"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Style -->
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Opacity="0.1" 
+                                    ShadowDepth="2" BlurRadius="8"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,30">
+            <TextBlock Text="QR Code Generator" 
+                      FontSize="28" 
+                      FontWeight="Bold" 
+                      Foreground="#1F2937"
+                      HorizontalAlignment="Center"/>
+            <TextBlock Text="Generate professional QR codes" 
+                      FontSize="14" 
+                      Foreground="#6B7280"
+                      HorizontalAlignment="Center"
+                      Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Input Panel -->
+            <Border Grid.Column="0" Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="QR Code Configuration" 
+                              FontSize="18" 
+                              FontWeight="SemiBold" 
+                              Foreground="#1F2937"
+                              Margin="0,0,0,20"/>
+
+                    <!-- Content Input -->
+                    <TextBlock Text="Content to Encode" 
+                              FontWeight="Medium" 
+                              Foreground="#374151"
+                              Margin="0,0,0,8"/>
+                    <TextBox x:Name="ContentTextBox" 
+                            Style="{StaticResource ModernTextBox}"
+                            Height="100"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"
+                            Text="https://www.example.com"
+                            Margin="0,0,0,20"/>
+
+                    <!-- Size Selection -->
+                    <TextBlock Text="QR Code Size" 
+                              FontWeight="Medium" 
+                              Foreground="#374151"
+                              Margin="0,0,0,8"/>
+                    <ComboBox x:Name="SizeComboBox" 
+                             Height="35"
+                             FontSize="14"
+                             Background="White"
+                             BorderBrush="#D1D5DB"
+                             SelectedIndex="2"
+                             Margin="0,0,0,20">
+                        <ComboBoxItem Content="Small (200x200)"/>
+                        <ComboBoxItem Content="Medium (300x300)"/>
+                        <ComboBoxItem Content="Large (400x400)"/>
+                        <ComboBoxItem Content="Extra Large (500x500)"/>
+                    </ComboBox>
+
+                    <!-- Error Correction Level -->
+                    <TextBlock Text="Error Correction Level" 
+                              FontWeight="Medium" 
+                              Foreground="#374151"
+                              Margin="0,0,0,8"/>
+                    <ComboBox x:Name="ErrorCorrectionComboBox" 
+                             Height="35"
+                             FontSize="14"
+                             Background="White"
+                             BorderBrush="#D1D5DB"
+                             SelectedIndex="1"
+                             Margin="0,0,0,30">
+                        <ComboBoxItem Content="Low (7%)" Tag="L"/>
+                        <ComboBoxItem Content="Medium (15%)" Tag="M"/>
+                        <ComboBoxItem Content="Quartile (25%)" Tag="Q"/>
+                        <ComboBoxItem Content="High (30%)" Tag="H"/>
+                    </ComboBox>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button x:Name="GenerateButton" 
+                               Content="Generate QR Code" 
+                               Style="{StaticResource ModernButton}"
+                               Click="GenerateButton_Click"
+                               Margin="0,0,10,0"/>
+                        <Button x:Name="SaveButton" 
+                               Content="Save Image" 
+                               Style="{StaticResource ModernButton}"
+                               Background="#059669"
+                               Click="SaveButton_Click"
+                               IsEnabled="False">
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Preview Panel -->
+            <Border Grid.Column="2" Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="QR Code Preview" 
+                              FontSize="18" 
+                              FontWeight="SemiBold" 
+                              Foreground="#1F2937"
+                              Margin="0,0,0,20"/>
+
+                    <!-- QR Code Display -->
+                    <Border Background="#F3F4F6" 
+                           CornerRadius="8" 
+                           Padding="20"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                        <Image x:Name="QRCodeImage" 
+                              Width="250" 
+                              Height="250"
+                              Stretch="Uniform"/>
+                    </Border>
+
+                    <!-- Status Text -->
+                    <TextBlock x:Name="StatusTextBlock" 
+                              Text="Enter content and click 'Generate QR Code' to begin"
+                              FontStyle="Italic"
+                              Foreground="#6B7280"
+                              HorizontalAlignment="Center"
+                              TextAlignment="Center"
+                              Margin="0,20,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+
+</Window>
